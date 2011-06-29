@@ -11,21 +11,25 @@ I know it's messy... it's a demo.
 body {
 font-family: verdana
 }
+
 p {
 line-height: 16px;
 margin: 0 0 5px
 }
+
 .wrapper {
 float: right;
 position: relative;
 left: -50%;
 margin-top: 30px
 }
+
 .flip-counter {
 position: relative;
 left: 50%;
 clear: both
 }
+
 .clear {
 clear: both
 }
@@ -38,5 +42,6 @@ font-weight: normal;
 font-size: 12px;
 background: #eee;
 border: 1px solid #666;
-text-align: center
+text-align: center;
+clear: both;
 }

@@ -20,13 +20,20 @@
 
 <body>
 
+	<!--<p>Counter code from:<a class="back" href="http://cnanney.com/journal/code/apple-style-counter-revisited/">here</a></p> -->
 	<div class="explain">
-		<p>This is the number of ICA records examined by the EMR jobs</p>
-		<p>Counter code from:<a class="back" href="http://cnanney.com/journal/code/apple-style-counter-revisited/">here</a></p>
+		<p>Approximate number of ICA records examined by today's EMR jobs:</p>
 	</div>
 
 	<div class="wrapper">
 		<div id="flip-counter" class="flip-counter"></div>
+	</div>
+	
+	<div class="explain">
+		<p>Yesterday's total:</p>
+	</div>
+	<div class="wrapper">
+		<div id="yesterday-counter" class="flip-counter"></div>
 	</div>
 
 	<script type="text/javascript">
@@ -60,6 +67,10 @@
 			myCounter.setPace(200);	// 200ms = 5 times per second 
 		}); 
 	};
+	
+	$.get('/previous', function(data) {
+		var previousCounter = new flipCounter('yesterday-counter', {value: parseInt(data), inc: 0, pace: 10000, auto:true});
+	});
 	
 	$.get('/frequency', function(data) {
 		frequency_in_sec = parseInt(data);
