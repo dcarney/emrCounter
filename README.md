@@ -10,7 +10,7 @@ This has been done before (see: [here](http://ryanelmquist.com/cgi-bin/xkcdwiki)
 ## Dependencies/Requirements
 
  * Developed/tested on Python 2.6.1
- * All required Python deps can be installed using PyPy or similar
+ * All required Python deps can be installed using [EasyInstall](http://packages.python.org/distribute/easy_install.html) or similar
  * [boto](http://code.google.com/p/boto/) for AWS API interaction
  * [bottle](http://bottlepy.org/docs/dev/) for Sinatra-like web routing
  * [pytz](http://pytz.sourceforge.net/) for timezone junk
