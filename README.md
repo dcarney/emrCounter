@@ -1,11 +1,11 @@
 # emrCounter
 
-
 ## About
 
-Philosopedia is a simple Python app that attempts to link various entries on Wikipedia to the Wikipedia entry for 'Philosophy', in an attempt to validate the above assertion.
+emrCounter is a dead-simple python app that aims to illustrate the amount of work being done by a set of Amazon Elastic MapReduce (EMR) jobs running under a given AWS account. 
+The jobs themselves log metrics to Amazon SimpleDB, and the emrCounter app serves up a page that shows an animated view of those metrics.
 
-This has been done before (see: [here](http://ryanelmquist.com/cgi-bin/xkcdwiki) and [here](http://xefer.com/wikipedia), but I wanted to not only open-source the code, but also keep a running inventory of words that both were and weren't able to link to Philosophy.
+Credit for the cool Apple-style flip counter animation goes to [Chris Nanney](http://cnanney.com/journal/code/apple-style-counter-revisited/)
 
 ## Dependencies/Requirements
 
