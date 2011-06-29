@@ -43,7 +43,7 @@ def rate(current_amount = 0):
 
 		print "utc equiv: ", dateToISOString(utc_begin)
 			
-		sdb_conn = boto.connect_sdb('', '')
+		sdb_conn = boto.connect_sdb('<aws_access_key>', '<aws_secret_key>')
 		query = 'SELECT CounterValue FROM EmrStats WHERE CounterName = \'ICA_RECORDS_READ\' AND Date >= \'%s\' LIMIT 10' % dateToISOString(utc_begin)
 		
 		print query
