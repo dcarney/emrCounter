@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<title>EMR Counts</title>
+	<meta name="description" content="Ann approximation of the # of records examined by VNC EMR jobs for the current day" />
+	<meta name="keywords" content="HTML,CSS,JavaScript,counter,apple-style,flip,animate,digit,demo" />
+	<meta name="author" content="Chris Nanney" />
+
+	<!-- required files for the counter -->
+	<script type="text/javascript" src="js/flipcounter.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/counter.css" />
+
+	<!-- the obligatory jQuery -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
+	<!-- Our CSS -->
+	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+
+</head>
+
+<body>
+
+	<div class="explain">
+		<p>This is the number of ICA records examined by the EMR jobs</p>
+		<p>Counter code from:<a class="back" href="http://cnanney.com/journal/code/apple-style-counter-revisited/">here</a></p>
+	</div>
+
+	<div class="wrapper">
+		<div id="flip-counter" class="flip-counter"></div>
+	</div>
+
+	<script type="text/javascript">
+	//<![CDATA[
+
+	// default to calling the server once an hour to get updates
+	var frequency_in_sec = 3600; 
+	var myCounter = new flipCounter('flip-counter', {value: 0, inc: 0, pace:1000, auto:true});
+	
+	// define a generic repeater
+	var repeater = function(func, times, interval) {
+	  var ID = window.setInterval( function(times) {
+	    return function() {
+	      if (--times <= 0) window.clearInterval(ID);
+	      func();
+	    }
+	  } (times), interval);
+	};
+	
+	// function to update the counter with the latest rate
+	var UpdateCounter = function() {
+		var currentValue = myCounter.getValue();
+	
+		$.get('/rate/' + currentValue, function(data) {
+
+			// The result we get back is a number of increments we should do per second.  If we change the "pace"
+			// variable of the counter, then we need to adjust the increment accordingly
+			var increment = Math.floor(parseInt(data) / 5);
+
+			myCounter.setIncrement(increment);
+			myCounter.setPace(200);	// 200ms = 5 times per second 
+		}); 
+	};
+	
+	$.get('/frequency', function(data) {
+		frequency_in_sec = parseInt(data);
+	
+		// call the repeater with a function as the argument
+		UpdateCounter();
+		repeater(UpdateCounter, 100000000, frequency_in_sec * 1000);
+	});
+	
+
+	//]]>
+	</script>
+</body>
+
+</html>

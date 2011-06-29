@@ -1,0 +1,42 @@
+/*
+
+Styling the demo page and all the controls.
+
+You don't need any of this to make the counter work.
+
+I know it's messy... it's a demo.
+
+*/
+
+body {
+font-family: verdana
+}
+p {
+line-height: 16px;
+margin: 0 0 5px
+}
+.wrapper {
+float: right;
+position: relative;
+left: -50%;
+margin-top: 30px
+}
+.flip-counter {
+position: relative;
+left: 50%;
+clear: both
+}
+.clear {
+clear: both
+}
+
+.explain {
+width: 680px;
+margin: 10px auto 0;
+padding: 10px;
+font-weight: normal;
+font-size: 12px;
+background: #eee;
+border: 1px solid #666;
+text-align: center
+}
