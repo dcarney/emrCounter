@@ -26,14 +26,14 @@
 	</div>
 
 	<div class="wrapper">
-		<div id="flip-counter" class="flip-counter"></div>
+		<div id="current-counter" class="flip-counter"></div>
 	</div>
 	
 	<div class="explain">
 		<p>Yesterday's total:</p>
 	</div>
 	<div class="wrapper">
-		<div id="yesterday-counter" class="flip-counter"></div>
+		<div id="previous-counter" class="flip-counter"></div>
 	</div>
 
 	<script type="text/javascript">
@@ -41,7 +41,7 @@
 
 	// default to calling the server once an hour to get updates
 	var frequency_in_sec = 3600; 
-	var myCounter = new flipCounter('flip-counter', {value: 0, inc: 0, pace:1000, auto:true});
+	var currentCounter = new flipCounter('current-counter', {value: 0, inc: 0, pace:1000, auto:true});
 	
 	// define a generic repeater
 	var repeater = function(func, times, interval) {
@@ -54,8 +54,8 @@
 	};
 	
 	// function to update the counter with the latest rate
-	var UpdateCounter = function() {
-		var currentValue = myCounter.getValue();
+	var updateCurrentCounter = function() {
+		var currentValue = currentCounter.getValue();
 	
 		$.get('/rate/' + currentValue, function(data) {
 
@@ -63,22 +63,28 @@
 			// variable of the counter, then we need to adjust the increment accordingly
 			var increment = Math.floor(parseInt(data) / 5);
 
-			myCounter.setIncrement(increment);
-			myCounter.setPace(200);	// 200ms = 5 times per second 
+			currentCounter.setIncrement(increment);
+			currentCounter.setPace(200);	// 200ms = 5 times per second 
 		}); 
 	};
 	
-	$.get('/previous', function(data) {
-		var previousCounter = new flipCounter('yesterday-counter', {value: parseInt(data), inc: 0, pace: 10000, auto:true});
-	});
+	var updatePreviousCounter = function() {
+		$.get('/previous', function(data) {
+			var previousCounter = new flipCounter('previous-counter', {value: parseInt(data), inc: 0, pace: 10000, auto:true});
+		});
+	};
 	
 	$.get('/frequency', function(data) {
 		frequency_in_sec = parseInt(data);
-	
+
 		// call the repeater with a function as the argument
-		UpdateCounter();
-		repeater(UpdateCounter, 100000000, frequency_in_sec * 1000);
+		updateCurrentCounter();
+		updatePreviousCounter();
+		
+		repeater(updateCurrentCounter, 100000000, frequency_in_sec * 1000);
+		repeater(updatePreviousCounter, 100000000, 3600000);
 	});
+	
 	
 
 	//]]>
