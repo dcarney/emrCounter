@@ -10,14 +10,16 @@ Credit for the cool Apple-style flip counter animation goes to [Chris Nanney](ht
 ## Dependencies/Requirements
 
  * Developed/tested on Python 2.6.1
- * All required Python deps can be installed using [EasyInstall](http://packages.python.org/distribute/easy_install.html) or similar
- * [boto](http://code.google.com/p/boto/) for AWS API interaction
- * [bottle](http://bottlepy.org/docs/dev/) for Sinatra-like web routing
- * [pytz](http://pytz.sourceforge.net/) for timezone junk
+ * The easiest way to get all the required Python deps is by using [pip](http://pypi.python.org/pypi/pip) and [virtualenv](http://pypi.python.org/pypi/virtualenv)
+ * emrCounter uses the following Python dependencies:
+    * [boto](http://code.google.com/p/boto/) for AWS API interaction
+    * [bottle](http://bottlepy.org/docs/dev/) for Sinatra-like web routing
+    * [pytz](http://pytz.sourceforge.net/) for timezone junk
 
 ## Installing/Running
 
- * replace <aws_access_key> and <aws_secret_key> with the appropriate values in counter.py
+ * $ pip install -E path/to/virtualenv -r pip_requirements.txt
+ * replace the appropriate values in config.ini
  * $ python counter.py
  * browse to localhost:8080/page
 
