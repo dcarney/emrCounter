@@ -41,7 +41,10 @@
 
 	// default to calling the server once an hour to get updates
 	var frequency_in_sec = 3600; 
+	var rate_catchup_window = 120;
+	var currentCeiling = 0;
 	var currentCounter = new flipCounter('current-counter', {value: 0, inc: 0, pace:1000, auto:true});
+	var previousCounter = new flipCounter('previous-counter', {value: 0, inc: 0, pace:10000, auto:true});
 	
 	// define a generic repeater
 	var repeater = function(func, times, interval) {
@@ -53,15 +56,28 @@
 	  } (times), interval);
 	};
 	
-	// function to update the counter with the latest rate
-	var updateCurrentCounter = function() {
+	var checkCounterCeiling = function() {
 		var currentValue = currentCounter.getValue();
 	
-		$.get('/rate/' + currentValue, function(data) {
-
+		if (currentValue >= currentCeiling) {
+			currentCounter.setValue(currentCeiling);
+			currentCounter.setIncrement(0);
+		}
+	};
+	
+	// function to update the counter with the latest rate
+	var updateCurrentCounter = function() {
+		$.get('current', function(data) {
+			var currentValue = currentCounter.getValue();
+			currentCeiling = parseInt(data);
+			
+			// increments/sec, using 2 min. as the catch-up window
+			var rate = Math.floor((currentCeiling - currentValue) / rate_catchup_window);
+			
+			console.log("current ceiling: " + currentCeiling + " new rate: " + rate);
 			// The result we get back is a number of increments we should do per second.  If we change the "pace"
 			// variable of the counter, then we need to adjust the increment accordingly
-			var increment = Math.floor(parseInt(data) / 5);
+			var increment = Math.floor(rate / 5);
 
 			currentCounter.setIncrement(increment);
 			currentCounter.setPace(200);	// 200ms = 5 times per second 
@@ -69,18 +85,22 @@
 	};
 	
 	var updatePreviousCounter = function() {
-		$.get('/previous', function(data) {
-			var previousCounter = new flipCounter('previous-counter', {value: parseInt(data), inc: 0, pace: 10000, auto:true});
+		$.get('previous', function(data) {
+			previousCounter.setValue(parseInt(data));
 		});
 	};
 	
-	$.get('/frequency', function(data) {
-		frequency_in_sec = parseInt(data);
+	$.get('frequencies', function(data) {
+		frequencies = $.parseJSON(data);
+		
+		frequency_in_sec = parseInt(frequencies.FREQUENCY_IN_SECONDS);
+		rate_catchup_window = parseInt(frequencies.RATE_CATCHUP_WINDOW);
 
 		// call the repeater with a function as the argument
 		updateCurrentCounter();
 		updatePreviousCounter();
 		
+		repeater(checkCounterCeiling, 100000000, 1000);
 		repeater(updateCurrentCounter, 100000000, frequency_in_sec * 1000);
 		repeater(updatePreviousCounter, 100000000, 3600000);
 	});
