@@ -1,3 +1,4 @@
 boto==2.0rc1
 bottle==0.9.5
 pytz==2011h
+simplejson==2.1.6

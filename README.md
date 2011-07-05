@@ -15,13 +15,14 @@ Credit for the cool Apple-style flip counter animation goes to [Chris Nanney](ht
     * [boto](http://code.google.com/p/boto/) for AWS API interaction
     * [bottle](http://bottlepy.org/docs/dev/) for Sinatra-like web routing
     * [pytz](http://pytz.sourceforge.net/) for timezone junk
+    * [simplejson](http://pypi.python.org/pypi/simplejson/) for.....JSON.
 
 ## Installing/Running
 
  * $ pip install -E path/to/virtualenv -r pip_requirements.txt
  * replace the appropriate values in config.ini
  * $ python counter.py
- * browse to localhost:8080/page
+ * browse to localhost:<port>
 
 
 
