@@ -15,6 +15,11 @@
 
 	<!-- Our CSS -->
 	<link rel="stylesheet" type="text/css" href="css/styles.css" />
+	
+	<!-- Required files for the stream chart -->
+	<script type="text/javascript" src="js/d3.js"></script>
+	<script type="text/javascript" src="js/d3.layout.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/stream.css" />
 
 </head>
 
@@ -35,6 +40,11 @@
 	<div class="wrapper">
 		<div id="previous-counter" class="flip-counter"></div>
 	</div>
+	
+	<div class="explain">
+		<p>30-day history of ICA records examined. Horizontal axis is time. Each stream is a client. Width of each stream represents number of ICA records examined each day.</p>
+	</div>
+	<div class="chart" id="chart"></div>
 
 	<script type="text/javascript">
 	//<![CDATA[
@@ -109,6 +119,7 @@
 
 	//]]>
 	</script>
+	<script type="text/javascript" src="js/stream.js"></script>
 </body>
 
 </html>
